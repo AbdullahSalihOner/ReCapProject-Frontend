@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'recaproject-frontend';
+  title:string = 'recaproject-frontend';
+  user:string ="salih Öner";
 }
