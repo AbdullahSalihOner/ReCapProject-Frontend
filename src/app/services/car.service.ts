@@ -5,16 +5,23 @@ import { Car } from '../models/car';
 import { ListResponseModel } from '../models/ListResponseModel';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class CarService {
 
-  apiUrl="https://localhost:44363/api/cars/getall";
+  apiUrl="https://localhost:44363/api/";
   constructor(private httpClient:HttpClient) { }
 
 
   getCars():Observable<ListResponseModel<Car>>{
-    return this.httpClient.get<ListResponseModel<Car>>(this.apiUrl);
+    let newPath = this.apiUrl + "cars/getall"
+    return this.httpClient.get<ListResponseModel<Car>>(newPath);
+  }
+
+  getCarsByCategory(categoryId:number):Observable<ListResponseModel<Car>>{
+    let newPath = this.apiUrl + "cars/getbycategory?categoryId="+categoryId
+    return this.httpClient.get<ListResponseModel<Car>>(newPath);
   }
 }

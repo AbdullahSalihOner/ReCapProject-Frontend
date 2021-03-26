@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Car } from 'src/app/models/car'; 
 import { CarService } from 'src/app/services/car.service';
 
@@ -12,10 +13,17 @@ export class CarComponent implements OnInit {
   cars: Car[] = [];
   dataLoaded=false;
   
-  constructor(private carService:CarService) {}
+  constructor(private carService:CarService,
+     private activatedRoute:ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.getCars();
+    this.activatedRoute.params.subscribe(params=>{
+      if (params["categoryId"]) {
+        this.getCarsByCategory(params["categoryId"])
+      }else{
+        this.getCars()
+      }
+    })
   }
 
   getCars(){
@@ -23,5 +31,14 @@ export class CarComponent implements OnInit {
       this.cars=response.data
       this.dataLoaded = true;
     })
+  
+  }
+
+  getCarsByCategory(categoryId:number){
+    this.carService.getCarsByCategory(categoryId).subscribe(response=>{
+      this.cars=response.data
+      this.dataLoaded = true;
+    })
+  
   }
 }
